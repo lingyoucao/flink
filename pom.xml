@@ -971,7 +971,7 @@ under the License.
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-shade-plugin</artifactId>
-							<version>3.2.1</version>
+							<version>3.2.4</version>
 						</plugin>
 						<plugin>
 							<groupId>com.github.siom79.japicmp</groupId>
@@ -1744,6 +1744,7 @@ under the License.
 								<exclude>log4j2-test.properties</exclude>
 								<!-- Do not copy the signatures in the META-INF folder.
 								Otherwise, this might cause SecurityExceptions when using the JAR. -->
+								<exclude>module-info.class</exclude>
 								<exclude>META-INF/*.SF</exclude>
 								<exclude>META-INF/*.DSA</exclude>
 								<exclude>META-INF/*.RSA</exclude>
@@ -1783,7 +1784,8 @@ under the License.
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<shadeTestJar>true</shadeTestJar>
+							<!--这个一定要注释成false，否则shade时会去找test的包-->
+							<shadeTestJar>false</shadeTestJar>
 							<shadedArtifactAttached>false</shadedArtifactAttached>
 							<createDependencyReducedPom>true</createDependencyReducedPom>
 							<dependencyReducedPomLocation>${project.basedir}/target/dependency-reduced-pom.xml</dependencyReducedPomLocation>
@@ -1994,7 +1996,20 @@ under the License.
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-shade-plugin</artifactId>
-					<version>3.1.1</version>
+					<version>3.2.4</version>
+					<configuration>
+						<filters>
+							<filter>
+								<artifact>*:*</artifact>
+								<excludes>
+									<exclude>module-info.class</exclude>
+									<exclude>META-INF/*.SF</exclude>
+									<exclude>META-INF/*.DSA</exclude>
+									<exclude>META-INF/*.RSA</exclude>
+								</excludes>
+							</filter>
+						</filters>
+					</configuration>
 				</plugin>
 
 				<plugin>
